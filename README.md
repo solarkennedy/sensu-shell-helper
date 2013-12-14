@@ -7,23 +7,20 @@ Takes the output of a command and reports it to sensu.
 
 ## Usage
 
-usage: sensu-shell-helper [OPTIONS] [--] COMMAND
+    usage: sensu-shell-helper [OPTIONS] [--] COMMAND
 
 ## Options
 
-```
-   -h      Show help
-   -n      Specify the name of the check. Defaults to the name of the command you run.
-   -l      Send the output of the command to logger as well as Sensu with a provided tag.
-   -d      Dry run, send the output what would be sent to Sensu to stderr.
-   -H      String of an array of handlers. Defaults to empty. (use default handlers)
-   -j      Specify custom json to cover a need that I can't think of. (see examples)
-   -c      Count of the numer of lines to output ot sensu. Default: 3
-```
+    -h      Show help
+    -n      Specify the name of the check. Defaults to the name of the command you run.
+    -l      Send the output of the command to logger as well as Sensu with a provided tag.
+    -d      Dry run, send the output what would be sent to Sensu to stderr.
+    -H      String of an array of handlers. Defaults to empty. (use default handlers)
+    -j      Specify custom json to cover a need that I can't think of. (see examples)
+    -c      Count of the numer of lines to output ot sensu. Default: 3
 
-Examples:
+## Examples:
 
-```
     ./sensu-shell-helper /bin/false
     (reports the output to sensu sliently, with a name of /bin/false)
 
@@ -35,7 +32,6 @@ Examples:
 
     ./sensu-shell-helper -n "Special Check" -j '"playbook": "http://wiki/special_check", "metric: false",' -- /usr/bin/special_check
     (For when you need extra json in the output. NOTE: INCLUDE A TRAILING COMMA)
-```
 
 ## Testing
 Uses the testing framework from [Evan Krall](https://github.com/EvanKrall/bash-present)
