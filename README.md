@@ -16,7 +16,7 @@ By default raises 2 (Critical) on any non-0 exit code from the command.
 
     -h      Show help
     -n      Specify the name of the check. Defaults to the name of the command you run with args,
-            with whitespace replaced with underscores. No whitespace allowed.
+            with non-compliant characters replaced with underscores.
     -l      Send the output of the command to logger as well as Sensu with a provided tag.
     -d      Dry run, send the output what would be sent to Sensu to stderr.
     -H      String of an array of handlers. Defaults to empty. (use default handlers)
@@ -48,7 +48,7 @@ For example a command like:
 Would result in a json of:
 
     {
-      "name": "/usr/bin/seq 1 5",
+      "name": "_usr_bin_seq_1_5",
       "output": "3
     4
     5', 

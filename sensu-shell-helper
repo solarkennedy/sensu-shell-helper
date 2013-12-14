@@ -13,7 +13,7 @@ By default raises 2 (Critical) on any non-0 exit code from the COMMAND
 OPTIONS:
    -h      Show help
    -n      Specify the name of the check. Defaults to the name of the command you run with args,
-           with whitespace replaced with underscores. No whitespace allowed.
+           with non-compliant characters replaced with underscores.
    -l      Send the output of the COMMAND to logger as well as Sensu with a provided tag.
    -d      Dry run, send the output what would be sent to Sensu to stderr.
    -H      String of an array of handlers. Defaults to empty. (use default handlers)
@@ -100,9 +100,17 @@ fi
 if [[ -z "$CHECK_NAME" ]]; then
   CHECK_NAME=$*
 fi
-# Convert space into underscores for compliance.
-CHECK_NAME=$( echo -n $CHECK_NAME | tr -d [:cntrl:])
-CHECK_NAME=$( echo -n $CHECK_NAME | tr [:space:] '_')
+
+# As much as possible, I believe we should try to fix errors for humans when it
+# is safe. Sensu will reject checks with non-validating names, so we substitute
+# out anything that doesn't match the regex:
+# https://github.com/sensu/sensu/blob/master/lib/sensu/socket.rb#L27
+CHECK_NAME=$( echo -n $CHECK_NAME | tr -d [:cntrl:] | sed 's/[^A-Za-z0-9_\.-]/_/g' )
+if ! [[ "$CHECK_NAME" =~ ^[A-Za-z0-9_\.-]+$ ]]; then
+  # Theoretically this should not get here if sed did the right thing.
+  echo "Error: Invalid characters in check name: $CHECK_NAME"
+  exit 1
+fi
 
 # Actually execute the command and suck in the result
 set -o pipefail

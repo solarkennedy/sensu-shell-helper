@@ -8,7 +8,7 @@ function test_bad_option() (
 
 function test_with_default_args_in_a_simple_case() (
 shouldbe='{
-"name": "/bin/true",
+"name": "_bin_true",
 "output": "",
 "status": 0
 }'
@@ -17,7 +17,7 @@ shouldbe='{
 
 function test_failing_output() (
 shouldbe='{
-"name": "/bin/false",
+"name": "_bin_false",
 "output": "",
 "status": 2
 }'
@@ -26,7 +26,7 @@ shouldbe='{
 
 function test_with_output() (
 shouldbe='{
-"name": "/bin/echo_test",
+"name": "_bin_echo_test",
 "output": "test",
 "status": 0
 }'
@@ -36,7 +36,7 @@ shouldbe='{
 
 function test_with_hyphens() (
 shouldbe='{
-"name": "/bin/echo_test",
+"name": "_bin_echo_test",
 "output": "test",
 "status": 0
 }'
@@ -45,7 +45,7 @@ shouldbe='{
 
 function test_with_handlers() (
 shouldbe='{
-"name": "/bin/echo_test",
+"name": "_bin_echo_test",
 "output": "test",
 "handlers": ["email", "pagerduty"],
 "status": 0
@@ -66,7 +66,7 @@ shouldbe='{
 
 function test_with_extra_JSON() (
 shouldbe='{
-"name": "/bin/echo_test",
+"name": "_bin_echo_test",
 "output": "test",
 "metric": false
 "status": 0
@@ -77,7 +77,7 @@ shouldbe='{
 
 function test_multilines() (
 shouldbe='{
-"name": "/usr/bin/seq_1_5",
+"name": "_usr_bin_seq_1_5",
 "output": "3
 4
 5",
@@ -89,7 +89,7 @@ shouldbe='{
 
 function test_10_multilines() (
 shouldbe='{
-"name": "/usr/bin/seq_1_100",
+"name": "_usr_bin_seq_1_100",
 "output": "96
 97
 98
