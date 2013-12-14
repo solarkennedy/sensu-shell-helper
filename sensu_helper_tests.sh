@@ -26,7 +26,7 @@ shouldbe="{
 
 function test_with_output() (
 shouldbe="{
-'name': '/bin/echo',
+'name': '/bin/echo test',
 'output': 'test', 
 'status': '0'
 }"
@@ -36,7 +36,7 @@ shouldbe="{
 
 function test_with_hyphens() (
 shouldbe="{
-'name': '/bin/echo',
+'name': '/bin/echo test',
 'output': 'test', 
 'status': '0'
 }"
@@ -45,7 +45,7 @@ shouldbe="{
 
 function test_with_handlers() (
 shouldbe="{
-'name': '/bin/echo',
+'name': '/bin/echo test',
 'output': 'test', 
 'handlers': ['email', 'pagerduty'],
 'status': '0'
@@ -60,13 +60,13 @@ shouldbe="{
 'output': '', 
 'status': '0'
 }"
-  RESULT=`./sensu-shell-helper -d -n "Name Override"  /bin/true test 2>&1`
+  RESULT=`./sensu-shell-helper -d -n "Name Override"  /bin/true 2>&1`
   [[ "$RESULT" == "$shouldbe" ]]
 )
 
 function test_with_extra_JSON() (
 shouldbe="{
-'name': '/bin/echo',
+'name': '/bin/echo test',
 'output': 'test', 
 'metric': false
 'status': '0'
@@ -77,7 +77,7 @@ shouldbe="{
 
 function test_multilines() (
 shouldbe="{
-'name': '/usr/bin/seq',
+'name': '/usr/bin/seq 1 5',
 'output': '3
 4
 5', 
@@ -89,7 +89,7 @@ shouldbe="{
 
 function test_10_multilines() (
 shouldbe="{
-'name': '/usr/bin/seq',
+'name': '/usr/bin/seq 1 100',
 'output': '96
 97
 98

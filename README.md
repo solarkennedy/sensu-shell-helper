@@ -13,14 +13,14 @@ add health checks to arbitary shell commands. Particularly good for cron jobs!
 ## Options
 
     -h      Show help
-    -n      Specify the name of the check. Defaults to the name of the command you run.
+    -n      Specify the name of the check. Defaults to the name of the command you run with args.
     -l      Send the output of the command to logger as well as Sensu with a provided tag.
     -d      Dry run, send the output what would be sent to Sensu to stderr.
     -H      String of an array of handlers. Defaults to empty. (use default handlers)
     -j      Specify custom json to cover a need that I can't think of. (see examples)
     -c      Count of the numer of lines to output ot sensu. Default: 3
 
-## Examples:
+## Examples
 
     sensu-shell-helper /bin/false
     (reports the output to sensu sliently, with a name of /bin/false)
@@ -33,6 +33,21 @@ add health checks to arbitary shell commands. Particularly good for cron jobs!
 
     sensu-shell-helper -n "Special Check" -j '"playbook": "http://wiki/special_check", "metric: false",' -- /usr/bin/special_check
     (For when you need extra json in the output. NOTE: INCLUDE A TRAILING COMMA. Use -d for debug)
+
+## Behind The Scenes
+
+sensu-shell-helper sends JSON to the local sensu agent running on localhost:3030. 
+For example a command like:
+    /sensu-shell-helper -d /usr/bin/seq 1 5
+
+Would result in a json of:
+    {
+      'name': '/usr/bin/seq 1 5',
+      'output': '3
+    4
+    5', 
+      'status': '0'
+    }
 
 ## Installation
 
