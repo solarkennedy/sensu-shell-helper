@@ -19,7 +19,7 @@ function test_failing_output() (
 shouldbe='{
 "name": "/bin/false",
 "output": "",
-"status": 1
+"status": 2
 }'
   [[ "$(./sensu-shell-helper -d /bin/false 2>&1)" == "$shouldbe" ]]
 )
@@ -105,7 +105,7 @@ function test_non_nagios_compliant() (
 shouldbe='{
 "name": "exit_42",
 "output": "",
-"status": 1
+"status": 2
 }'
   RESULT=`./sensu-shell-helper -d -- exit 42 2>&1`
   [[ "$RESULT" == "$shouldbe" ]]

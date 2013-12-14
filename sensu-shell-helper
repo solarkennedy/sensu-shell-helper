@@ -4,19 +4,19 @@ usage()
 cat << EOF
 usage: $0 [OPTIONS] [--] COMMAND
 
-Takes the output of a command and reports it to sensu.
-By default raises 1 (Critical) on any non-0 exit code from the command.
+Takes the output of a COMMAND and reports it to Sensu.
+By default raises 2 (Critical) on any non-0 exit code from the COMMAND
 
 OPTIONS:
    -h      Show help
    -n      Specify the name of the check. Defaults to the name of the command you run with args,
            with whitespace replaced with underscores. No whitespace allowed.
-   -l      Send the output of the command to logger as well as Sensu with a provided tag.
+   -l      Send the output of the COMMAND to logger as well as Sensu with a provided tag.
    -d      Dry run, send the output what would be sent to Sensu to stderr.
    -H      String of an array of handlers. Defaults to empty. (use default handlers)
    -j      Specify custom json to cover a need that I can't think of. (see examples)
    -c      Count of the numer of lines to output ot sensu. Default: 3
-   -N      Nagios Compliant. Use when the command returns 0,1,2,3 appropriatly.
+   -N      Nagios Compliant. Use when the COMMAND returns 0,1,2,3 appropriatly.
 
 Examples:
 
@@ -106,10 +106,10 @@ set -o pipefail
 CHECK_RESULT=$( $* 2>&1 $LOG_ARG | tail -n $LINE_COUNT )
 RET_CODE=$?
 
-# Normally scripts do not return nagios compliant return codes, so we return 1
+# Normally scripts do not return nagios compliant return codes, so we return 2
 # When they fail for any reason
 if [[ "$NAGIOS_COMPLIANT" != "true" ]] && [[ "$RET_CODE" != 0 ]]; then
-  RET_CODE=1
+  RET_CODE=2
 fi
 
 # Get the check result and send it to the right place
