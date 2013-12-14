@@ -32,5 +32,16 @@ Examples:
 EOF
 }
 
+while getopts ":h" opt; do
+  case $opt in
+    h)
+      usage
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      ;;
+  esac
+done
+
 #echo '{"name": "some-check-name", "output": "I failed unfortunately", "status": 2}' > /dev/tcp/localhost/3030
 
