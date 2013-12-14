@@ -3,7 +3,8 @@
 
 ## Description
 
-Takes the output of a command and reports it to sensu.
+Takes the output of a command and reports it to sensu. Makes it pretty trivial
+add health checks to arbitary shell commands. Particularly good for cron jobs!
 
 ## Usage
 
@@ -21,17 +22,17 @@ Takes the output of a command and reports it to sensu.
 
 ## Examples:
 
-    ./sensu-shell-helper /bin/false
+    sensu-shell-helper /bin/false
     (reports the output to sensu sliently, with a name of /bin/false)
 
-    ./sensu-shell-helper -l dailycron -n "Daily Apt Get Cron" /usr/bin/apt-get update
+    sensu-shell-helper -l dailycron -n "Daily Apt Get Cron" /usr/bin/apt-get update
     (Get a sensu alert when your daily apt-get cron job fails, and get logs to syslog)
 
-    ./sensu-shell-helper -H "['email', 'pagerduty']" -- /usr/bin/my_critical_command
+    sensu-shell-helper -H "['email', 'pagerduty']" -- /usr/bin/my_critical_command
     (Be explicity about handlers to use. Optional -- to separate the command)
 
-    ./sensu-shell-helper -n "Special Check" -j '"playbook": "http://wiki/special_check", "metric: false",' -- /usr/bin/special_check
-    (For when you need extra json in the output. NOTE: INCLUDE A TRAILING COMMA)
+    sensu-shell-helper -n "Special Check" -j '"playbook": "http://wiki/special_check", "metric: false",' -- /usr/bin/special_check
+    (For when you need extra json in the output. NOTE: INCLUDE A TRAILING COMMA. Use -d for debug)
 
 ## Testing
 Uses the testing framework from [Evan Krall](https://github.com/EvanKrall/bash-present)
