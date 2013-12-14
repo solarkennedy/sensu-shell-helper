@@ -34,6 +34,11 @@ add health checks to arbitary shell commands. Particularly good for cron jobs!
     sensu-shell-helper -n "Special Check" -j '"playbook": "http://wiki/special_check", "metric: false",' -- /usr/bin/special_check
     (For when you need extra json in the output. NOTE: INCLUDE A TRAILING COMMA. Use -d for debug)
 
+## Installation
+
+Simply copy the file somewhere, or:
+    make install PREFIX=/usr
+
 ## Testing
 Uses the testing framework from [Evan Krall](https://github.com/EvanKrall/bash-present)
 to test basic functionality.
