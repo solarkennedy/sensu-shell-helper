@@ -50,7 +50,7 @@ while getopts "hn:l:dH:j:vc:" opt; do
       DRYRUN=true
       ;;
     H)
-      HANDLERS="\n'handlers': ${OPTARG},"
+      HANDLERS="\n\"handlers\": ${OPTARG},"
       ;;
     j)
       EXTRA_JSON="\n${OPTARG}"
@@ -99,9 +99,9 @@ RET_CODE=$?
 
 # Get the check result and send it to the right place
 echo -e "{
-'name': '$CHECK_NAME',
-'output': '$CHECK_RESULT', ${EXTRA_JSON}${HANDLERS}
-'status': '$RET_CODE'
+\"name\": \"$CHECK_NAME\",
+\"output\": \"$CHECK_RESULT\", ${EXTRA_JSON}${HANDLERS}
+\"status\": \"$RET_CODE\"
 }" >$OUTPUT_DESTINATION
 OUTPUT_RETURN=$?
 
