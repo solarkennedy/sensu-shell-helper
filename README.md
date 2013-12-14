@@ -38,9 +38,11 @@ add health checks to arbitary shell commands. Particularly good for cron jobs!
 
 sensu-shell-helper sends JSON to the local sensu agent running on localhost:3030. 
 For example a command like:
+
     /sensu-shell-helper -d /usr/bin/seq 1 5
 
 Would result in a json of:
+
     {
       'name': '/usr/bin/seq 1 5',
       'output': '3
