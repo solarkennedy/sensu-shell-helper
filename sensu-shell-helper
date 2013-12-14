@@ -5,6 +5,7 @@ cat << EOF
 usage: $0 [OPTIONS] [--] COMMAND
 
 Takes the output of a command and reports it to sensu.
+By default raises 1 (Critical) on any non-0 exit code from the command.
 
 OPTIONS:
    -h      Show help
@@ -15,6 +16,7 @@ OPTIONS:
    -H      String of an array of handlers. Defaults to empty. (use default handlers)
    -j      Specify custom json to cover a need that I can't think of. (see examples)
    -c      Count of the numer of lines to output ot sensu. Default: 3
+   -N      Nagios Compliant. Use when the command returns 0,1,2,3 appropriatly.
 
 Examples:
 
@@ -33,7 +35,7 @@ Examples:
 EOF
 }
 
-while getopts "hn:l:dH:j:vc:" opt; do
+while getopts "hn:l:dH:j:vc:N" opt; do
   case $opt in
     h)
       usage
@@ -51,13 +53,16 @@ while getopts "hn:l:dH:j:vc:" opt; do
       DRYRUN=true
       ;;
     H)
-      HANDLERS="\n'handlers': ${OPTARG},"
+      HANDLERS="\n\"handlers\": ${OPTARG},"
       ;;
     j)
       EXTRA_JSON="\n${OPTARG}"
       ;;
     c)
       LINE_COUNT="$OPTARG"
+      ;;
+    N)
+      NAGIOS_COMPLIANT=true
       ;;
     \?)
       usage
@@ -94,30 +99,30 @@ if [[ -z "$CHECK_NAME" ]]; then
 fi
 # Convert space into underscores for compliance.
 CHECK_NAME=$( echo -n $CHECK_NAME | tr -d [:cntrl:])
-CHECK_NAME=$( echo -n $CHECK_NAME | tr [:space:] '-')
+CHECK_NAME=$( echo -n $CHECK_NAME | tr [:space:] '_')
 
 # Actually execute the command and suck in the result
 set -o pipefail
 CHECK_RESULT=$( $* 2>&1 $LOG_ARG | tail -n $LINE_COUNT )
 RET_CODE=$?
 
+# Normally scripts do not return nagios compliant return codes, so we return 1
+# When they fail for any reason
+if [[ "$NAGIOS_COMPLIANT" != "true" ]] && [[ "$RET_CODE" != 0 ]]; then
+  RET_CODE=1
+fi
+
 # Get the check result and send it to the right place
 echo -e "{
-'name': '$CHECK_NAME',
-'output': '$CHECK_RESULT', ${EXTRA_JSON}${HANDLERS}
-'status': '$RET_CODE'
+\"name\": \"$CHECK_NAME\",
+\"output\": \"$CHECK_RESULT\",${EXTRA_JSON}${HANDLERS}
+\"status\": $RET_CODE
 }" >$OUTPUT_DESTINATION
 OUTPUT_RETURN=$?
 
 if [[ $OUTPUT_RETURN == 0 ]]; then
-  # Explicitly return the return code that actually occured if we are in
-  # passthrough mode. Otherwise, if we are a check or cron job, hide the
-  # return code, as it is reported to Sensu.
-  if [[ "$PASS_THROUGH" == true ]]; then
-    exit $RET_CODE
-  else
-    exit 0
-  fi
+  # If we successfully sent to sensu then we can return 0.
+  exit 0
 else
   # If the output failed, then possibly the sensu agent is not running
   # We choose to exit 1 regardless.

@@ -6,6 +6,8 @@
 Takes the output of a command and reports it to sensu. Makes it pretty trivial
 add health checks to arbitary shell commands. Particularly good for cron jobs!
 
+By default raises 1 (Critical) on any non-0 exit code from the command.
+
 ## Usage
 
     usage: sensu-shell-helper [OPTIONS] [--] COMMAND
@@ -20,6 +22,7 @@ add health checks to arbitary shell commands. Particularly good for cron jobs!
     -H      String of an array of handlers. Defaults to empty. (use default handlers)
     -j      Specify custom json to cover a need that I can't think of. (see examples)
     -c      Count of the numer of lines to output ot sensu. Default: 3
+    -N      Nagios Compliant. Use when the command returns 0,1,2,3 appropriatly.
 
 ## Examples
 
