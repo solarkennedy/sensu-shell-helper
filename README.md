@@ -30,9 +30,9 @@ By default raises 2 (Critical) on any non-0 exit code from the command.
     (reports the output to sensu sliently, with a name of /bin/false)
 
     sensu-shell-helper -l dailycron -n "Daily Apt Get Cron" /usr/bin/apt-get update
-    (Get a sensu alert when your daily apt-get cron job fails, and get logs to syslog)
+    (Get a sensu alert when your daily apt-get cron job fails, and send output to syslog)
 
-    sensu-shell-helper -H "['email', 'pagerduty']" -- /usr/bin/my_critical_command
+    sensu-shell-helper -H '["email", "pagerduty"]' -- /usr/bin/my_critical_command
     (Be explicity about handlers to use. Optional -- to separate the command)
 
     sensu-shell-helper -n "Special Check" -j '"playbook": "http://wiki/special_check", "metric: false",' -- /usr/bin/special_check
@@ -48,14 +48,14 @@ For example a command like:
 Would result in a json of:
 
     {
-      'name': '/usr/bin/seq 1 5',
-      'output': '3
+      "name": "/usr/bin/seq 1 5",
+      "output": "3
     4
     5', 
-      'status': '0'
+      "status": 0
     }
 
-Being sent to localhost:3030. Use the -d (dry-run) flag to confirm.
+sent to localhost:3030. Use the -d (dry-run) flag to confirm your JSON output.
 
 ## Installation
 

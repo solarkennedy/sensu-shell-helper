@@ -26,7 +26,7 @@ Examples:
     $0 -l dailycron -n "Daily Apt Get Cron" /usr/bin/apt-get update
     (Get a sensu alert when your daily apt-get cron job fails, and get logs to syslog)
 
-    $0 -H "['email', 'pagerduty']" -- /usr/bin/my_critical_command
+    $0 -H '["email", "pagerduty"]' -- /usr/bin/my_critical_command
     (Be explicity about handlers to use. Optional -- to separate the command)
 
     $0 -n "Special Check" -j '"playbook": "http://wiki/special_check", "metric: false",' -- /usr/bin/special_check
