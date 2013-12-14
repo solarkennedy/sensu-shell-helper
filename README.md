@@ -22,7 +22,7 @@ By default raises 2 (Critical) on any non-0 exit code from the command.
     -H      String of an array of handlers. Defaults to empty. (use default handlers)
     -j      Specify custom json to cover a need that I can't think of. (see examples)
     -c      Count of the numer of lines to output ot Sensu. Default: 3
-    -N      Nagios Compliant. Use when the COMMAND returns 0,1,2,3 appropriatly.
+    -N      Nagios Compliant. Use when the COMMAND returns 0,1,2,3 appropriately.
 
 ## Examples
 
