@@ -13,7 +13,8 @@ add health checks to arbitary shell commands. Particularly good for cron jobs!
 ## Options
 
     -h      Show help
-    -n      Specify the name of the check. Defaults to the name of the command you run with args.
+    -n      Specify the name of the check. Defaults to the name of the command you run with args,
+            with whitespace replaced with underscores. No whitespace allowed.
     -l      Send the output of the command to logger as well as Sensu with a provided tag.
     -d      Dry run, send the output what would be sent to Sensu to stderr.
     -H      String of an array of handlers. Defaults to empty. (use default handlers)
