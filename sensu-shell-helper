@@ -1,4 +1,7 @@
 #!/bin/bash
+# sensu-shell-helper
+# https://github.com/solarkennedy/sensu-shell-helper
+#
 usage()
 {
 cat << EOF
