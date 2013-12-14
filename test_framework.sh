@@ -1,4 +1,5 @@
 #!/bin/bash
+# Taken from https://github.com/EvanKrall/bash-present
 
 function file_of_function() (
     # Print the filename where the given function is defined.
@@ -55,6 +56,10 @@ function assert() {
 function run_tests() {
     # Run all the tests in a file. This requires sourcing the file.
     local file="$1"
+    if [[ -z "$file" ]] ; then
+      echo "Error: No file provided"
+      exit 1
+    fi
     source "$file"
     test_funcs=($(discover_tests "$file"))
     # Redirect FDs 3 and 4 to stdout and stderr, respectively.
