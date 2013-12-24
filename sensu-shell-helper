@@ -105,8 +105,8 @@ fi
 # is safe. Sensu will reject checks with non-validating names, so we substitute
 # out anything that doesn't match the regex:
 # https://github.com/sensu/sensu/blob/master/lib/sensu/socket.rb#L27
-CHECK_NAME=$( echo -n $CHECK_NAME | tr -d [:cntrl:] | sed 's/[^A-Za-z0-9_\.-]/_/g' )
-if ! [[ "$CHECK_NAME" =~ ^[A-Za-z0-9_\.-]+$ ]]; then
+CHECK_NAME=$( echo -n $CHECK_NAME | tr -d [:cntrl:] | sed 's/[^A-Za-z0-9_.-]/_/g' )
+if ! [[ "$CHECK_NAME" =~ ^[A-Za-z0-9_.-]+$ ]]; then
   # Theoretically this should not get here if sed did the right thing.
   echo "Error: Invalid characters in check name: $CHECK_NAME"
   exit 1
