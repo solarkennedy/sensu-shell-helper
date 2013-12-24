@@ -33,6 +33,23 @@ shouldbe='{
   [[ "$(./sensu-shell-helper -d /bin/echo test 2>&1)" == "$shouldbe" ]]
 )
 
+function test_with_output_escape_double_quotes() (
+shouldbe='{
+"name": "_bin_echo_test__double_quotes_",
+"output": "test \"double quotes\"",
+"status": 0
+}'
+  [[ "$(./sensu-shell-helper -d /bin/echo 'test "double quotes"' 2>&1)" == "$shouldbe" ]]
+)
+
+function test_with_output_escape_backslash() (
+shouldbe='{
+"name": "_bin_echo_test___backslash",
+"output": "test \\ backslash",
+"status": 0
+}'
+  [[ "$(./sensu-shell-helper -d /bin/echo 'test \ backslash' 2>&1)" == "$shouldbe" ]]
+)
 
 function test_with_hyphens() (
 shouldbe='{
