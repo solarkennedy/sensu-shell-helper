@@ -33,6 +33,15 @@ shouldbe='{
   [[ "$(./sensu-shell-helper -d /bin/echo test 2>&1)" == "$shouldbe" ]]
 )
 
+function test_with_dir() (
+shouldbe='{
+"name": "_bin_echo_test",
+"output": "test",
+"status": 0
+}'
+  [[ "$(./sensu-shell-helper -D $HOME -d /bin/echo test 2>&1)" == "$shouldbe" ]]
+)
+
 function test_with_output_escape_double_quotes() (
 shouldbe='{
 "name": "_bin_echo_test__double_quotes_",
