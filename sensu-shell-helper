@@ -19,6 +19,7 @@ OPTIONS:
    -H      String of an array of handlers. Defaults to empty. (use default handlers)
    -j      Specify custom json to cover a need that I can't think of. (see examples)
    -c      Count of the numer of lines to output ot sensu. Default: 3
+   -D      If specified changes directory before executing
    -N      Nagios Compliant. Use when the COMMAND returns 0,1,2,3 appropriately.
 
 Examples:
@@ -38,7 +39,7 @@ Examples:
 EOF
 }
 
-while getopts "hn:l:dH:j:vc:N" opt; do
+while getopts "hn:l:dH:j:D:vc:N" opt; do
   case $opt in
     h)
       usage
@@ -60,6 +61,9 @@ while getopts "hn:l:dH:j:vc:N" opt; do
       ;;
     j)
       EXTRA_JSON="\n${OPTARG}"
+      ;;
+    D)
+      DIR="$OPTARG"
       ;;
     c)
       LINE_COUNT="$OPTARG"
@@ -110,6 +114,11 @@ if ! [[ "$CHECK_NAME" =~ ^[A-Za-z0-9_.-]+$ ]]; then
   # Theoretically this should not get here if sed did the right thing.
   echo "Error: Invalid characters in check name: $CHECK_NAME"
   exit 1
+fi
+
+# change directory if specified
+if [[ -n "$DIR" && -d "$DIR" ]] ; then
+  cd $DIR
 fi
 
 # Actually execute the command and suck in the result
