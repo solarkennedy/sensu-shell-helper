@@ -104,7 +104,7 @@ shouldbe='{
   [[ "$RESULT" == "$shouldbe" ]]
 )
 
-function test_10_multilines() (
+function test_5_multilines() (
 shouldbe='{
 "name": "_usr_bin_seq_1_100",
 "output": "96

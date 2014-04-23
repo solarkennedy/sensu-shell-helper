@@ -18,7 +18,7 @@ OPTIONS:
    -d      Dry run, send the output what would be sent to Sensu to stderr.
    -H      String of an array of handlers. Defaults to empty. (use default handlers)
    -j      Specify custom json to cover a need that I can't think of. (see examples)
-   -c      Count of the numer of lines to output ot sensu. Default: 3
+   -c      Count of the numer of lines to output to sensu. Default: 3
    -N      Nagios Compliant. Use when the COMMAND returns 0,1,2,3 appropriately.
 
 Examples:
@@ -50,7 +50,7 @@ while getopts "hn:l:dH:j:vc:N" opt; do
     l)
       # We can get by with just prepending with a pipe
       # and using this in our command directly
-      LOG_ARG="| -l $OPTARG"
+      LOG_ARG="| logger -t $OPTARG -s 2>&1"
       ;;
     d)
       DRYRUN=true
@@ -115,7 +115,8 @@ fi
 # Actually execute the command and suck in the result
 # Also, escape backslash and double quotes in command output, ready for insertion into JSON
 set -o pipefail
-CHECK_RESULT=$( $* 2>&1 $LOG_ARG | tail -n $LINE_COUNT | sed 's@\([\"]\)@\\\\\1@g' )
+CHECK_CMD="$* 2>&1 $LOG_ARG | tail -n $LINE_COUNT"
+CHECK_RESULT=$(eval $CHECK_CMD)
 RET_CODE=$?
 
 # Normally scripts do not return nagios compliant return codes, so we return 2
