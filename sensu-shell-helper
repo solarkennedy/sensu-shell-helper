@@ -56,10 +56,10 @@ while getopts "hn:l:dH:j:vc:N" opt; do
       DRYRUN=true
       ;;
     H)
-      HANDLERS="\n\"handlers\": ${OPTARG},"
+      HANDLERS="\"handlers\": ${OPTARG},"
       ;;
     j)
-      EXTRA_JSON="\n${OPTARG}"
+      EXTRA_JSON="${OPTARG}"
       ;;
     c)
       LINE_COUNT="$OPTARG"
@@ -125,11 +125,7 @@ if [[ "$NAGIOS_COMPLIANT" != "true" ]] && [[ "$RET_CODE" != 0 ]]; then
 fi
 
 # Get the check result and send it to the right place
-echo -e "{
-\"name\": \"$CHECK_NAME\",
-\"output\": \"$CHECK_RESULT\",${EXTRA_JSON}${HANDLERS}
-\"status\": $RET_CODE
-}" >$OUTPUT_DESTINATION
+echo -e "{\"name\": \"$CHECK_NAME\",\"output\": \"$CHECK_RESULT\",${EXTRA_JSON}${HANDLERS}\"status\": $RET_CODE}" >$OUTPUT_DESTINATION
 OUTPUT_RETURN=$?
 
 if [[ $OUTPUT_RETURN == 0 ]]; then
