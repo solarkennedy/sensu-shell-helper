@@ -113,9 +113,9 @@ if ! [[ "$CHECK_NAME" =~ ^[A-Za-z0-9_.-]+$ ]]; then
 fi
 
 # Actually execute the command and suck in the result
-# Also, escape backslash and double quotes in command output, ready for insertion into JSON
+# Also, escape backslash and double quotes in command output, ready for insertion into JSON and turn all newlines into spaces with the exception of the last character.
 set -o pipefail
-CHECK_RESULT=$( $* 2>&1 $LOG_ARG | tail -n $LINE_COUNT | sed 's@\([\"]\)@\\\\\1@g'|while read -d $'\n'; do echo -n "${REPLY} "; done|sed 's/\ $//g' )
+CHECK_RESULT=$( $* 2>&1 $LOG_ARG | tail -n $LINE_COUNT |sed 's@\([\"]\)@\\\\\1@g'|while read -d $'\n'; do echo -en "${REPLY} "|sed 's@\([\"]\)@\\\\\1@g;s@\\\\\\"@\"@g'; done|sed 's/\ $//g' )
 RET_CODE=$?
 
 # Normally scripts do not return nagios compliant return codes, so we return 2
