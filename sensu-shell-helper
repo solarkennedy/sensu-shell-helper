@@ -115,7 +115,7 @@ fi
 # Actually execute the command and suck in the result
 # Also, escape backslash and double quotes in command output, ready for insertion into JSON
 set -o pipefail
-CHECK_RESULT=$( $* 2>&1 $LOG_ARG | tail -n $LINE_COUNT | sed 's@\([\"]\)@\\\\\1@g' )
+CHECK_RESULT=$( $* 2>&1 $LOG_ARG | tail -n $LINE_COUNT | sed 's@\([\"]\)@\\\\\1@g'|while read -d $'\n'; do echo -n "${REPLY} "; done|sed 's/\ $//g' )
 RET_CODE=$?
 
 # Normally scripts do not return nagios compliant return codes, so we return 2
