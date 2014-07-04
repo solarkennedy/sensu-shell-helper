@@ -162,3 +162,14 @@ if ! [[ "$ACTUAL" == "$EXPECTED" ]]; then
 fi
 )
 
+function test_no_newline_anywhere() (
+EXPECTED='{"name": "echo_-ne_test","output": "test","status": 0}'
+ACTUAL=`./sensu-shell-helper -d -- echo -ne test 2>&1`
+if ! [[ "$ACTUAL" == "$EXPECTED" ]]; then
+  echo "Actual output:"
+  echo "$ACTUAL"
+  echo "Didn't match what we expected:"
+  echo "$EXPECTED"
+  return 1
+fi
+)
