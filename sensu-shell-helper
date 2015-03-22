@@ -78,7 +78,7 @@ done
 shift $((OPTIND-1))
 
 # Fail early if there isn't even a command specified
-if [[ -z "$*" ]]; then
+if [[ -z "$@" ]]; then
   echo "Error: No command specified"
   usage
   exit 1
@@ -98,7 +98,7 @@ fi
 # When an explicity name is not provided, we default to the command
 # that was asked to be run. 
 if [[ -z "$CHECK_NAME" ]]; then
-  CHECK_NAME=$*
+  CHECK_NAME="$@"
 fi
 
 # As much as possible, I believe we should try to fix errors for humans when it
@@ -115,7 +115,7 @@ fi
 # Actually execute the command and suck in the result
 # Also, escape backslash and double quotes in command output, ready for insertion into JSON and turn all newlines into spaces with the exception of the last character.
 set -o pipefail
-CHECK_RESULT=$($* 2>&1 $LOG_ARG | tail -n $LINE_COUNT |sed -e '$a\'|sed 's@\([\"]\)@\\\\\1@g'|while read -d $'\n'; do echo -en "${REPLY} "|sed 's@\([\"]\)@\\\\\1@g;s@\\\\\\"@\"@g'; done|sed 's/\ $//g' )
+CHECK_RESULT=$("$@" 2>&1 $LOG_ARG | tail -n $LINE_COUNT |sed -e '$a\'|sed 's@\([\"]\)@\\\\\1@g'|while read -d $'\n'; do echo -en "${REPLY} "|sed 's@\([\"]\)@\\\\\1@g;s@\\\\\\"@\"@g'; done|sed 's/\ $//g' )
 RET_CODE=$?
 
 # Normally scripts do not return nagios compliant return codes, so we return 2
