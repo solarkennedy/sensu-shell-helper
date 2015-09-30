@@ -4,7 +4,7 @@
 ## Description
 
 Takes the output of a command and reports it to Sensu. Makes it pretty trivial
-add health checks to arbitary shell commands. Particularly good for cron jobs!
+add health checks to arbitrary shell commands. Particularly good for cron jobs!
 
 By default raises 2 (Critical) on any non-0 exit code from the command.
 
