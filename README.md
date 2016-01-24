@@ -1,3 +1,8 @@
+# DEPRECATION NOTICE
+
+This script is deprecated in favor of
+[This Ruby-based replacement](https://github.com/jaxxstorm/sensu-wrapper)!!
+
 # Sensu-shell-helper
 [![Build Status](https://travis-ci.org/solarkennedy/sensu-shell-helper.png)](https://travis-ci.org/solarkennedy/sensu-shell-helper)
 
